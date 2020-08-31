@@ -285,6 +285,7 @@ class LuaEncoder:
             s += k
             s += " = "
             s += cls._write_exp(v)
+            s += "\n\n\n"
         return s
 
 

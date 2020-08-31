@@ -48,4 +48,4 @@ GameData = {
         )
 
         data = luafile.loads(test)
-        self.assertEqual(test.replace(" ", ""), luafile.dumps(data).replace(" ", ""))
+        self.assertEqual(test.replace(" ", ""), luafile.dumps(data).replace(" ", "").rstrip())
