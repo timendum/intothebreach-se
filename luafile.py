@@ -1,3 +1,6 @@
+"""A very simple Lua reader and writer.
+
+Tested only with Into The Breach files!"""
 from collections import namedtuple
 
 LuaObj = namedtuple("LuaObj", ["name", "params"])
@@ -53,7 +56,6 @@ class LuaDecodeError(ValueError):
 class LuaDecoder:
     def __init__(self, s):
         self.s = str(s)
-        self.data = {}
         self.idx = 0
 
     def _raise(self, msg, delta=0):
@@ -215,13 +217,14 @@ class LuaDecoder:
 
     def parse(self):
         """Parse a string composed of (multiple) varibile=expression"""
+        data = {}
         while self.idx < len(self.s):
             k = self._read_var_name()
             self._expect("=", "separator")
             v = self._read_exp()
-            self.data[k] = v
+            data[k] = v
             self._consume_whitespace()
-        return self.data
+        return data
 
 
 class LuaEncoder:
@@ -283,3 +286,13 @@ class LuaEncoder:
             s += " = "
             s += cls._write_exp(v)
         return s
+
+
+def dumps(obj):
+    """Serialize obj as a Lua object."""
+    return LuaEncoder.dumps(obj)
+
+
+def loads(s):
+    """"Deserialize a Lua content to a Python object."""
+    return LuaDecoder(s).parse()

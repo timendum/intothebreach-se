@@ -1,6 +1,6 @@
 import unittest
 
-from luafile import LuaEncoder, LuaDecoder
+import luafile
 
 
 class TestLuaRoundtrip(unittest.TestCase):
@@ -47,5 +47,5 @@ GameData = {
             "\r", ""
         )
 
-        data = LuaDecoder(test).parse()
-        self.assertEqual(test.replace(" ", ""), LuaEncoder.dumps(data).replace(" ", ""))
+        data = luafile.loads(test)
+        self.assertEqual(test.replace(" ", ""), luafile.dumps(data).replace(" ", ""))

@@ -34,4 +34,6 @@ class TestLuaEncoder(unittest.TestCase):
         s = LuaEncoder._write_list_table([0, "one", 2])
         self.assertEqual(s, '{0, "one", 2, }')
         s = LuaEncoder._write_dict_table({1: "one", 2: "two", 3: "three", 5: "five", "4": "four"})
-        self.assertEqual(s, '{[1] = "one", [2] = "two", [3] = "three", [5] = "five", ["4"] = "four", }')
+        self.assertEqual(
+            s, '{[1] = "one", [2] = "two", [3] = "three", [5] = "five", ["4"] = "four", }',
+        )
