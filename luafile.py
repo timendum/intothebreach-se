@@ -230,7 +230,10 @@ class LuaDecoder:
 class LuaEncoder:
     @classmethod
     def _write_list_table(cls, obj):
-        return "{" + ", ".join([cls._write_exp(v) for v in obj]) + ", }"
+        if obj:
+            return "{" + ", ".join([cls._write_exp(v) for v in obj]) + ", }"
+        else:
+            return "{}"
 
     @classmethod
     def _write_dict_table(cls, obj):
@@ -239,7 +242,7 @@ class LuaEncoder:
             + ", ".join(
                 ["[{}] = {}".format(cls._write_exp(k), cls._write_exp(v)) for k, v in obj.items()]
             )
-            + ", }"
+            + (", }" if obj else "}")
         )
 
     @classmethod
@@ -251,7 +254,7 @@ class LuaEncoder:
                 obj.name
                 + "({"
                 + ", ".join(["{} = {}".format(k, cls._write_exp(v)) for k, v in obj.params.items()])
-                + ",})"
+                + (",})" if obj.params else "})")
             )
         raise ValueError(obj.params)
 
